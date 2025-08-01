@@ -1,4 +1,5 @@
-import { PropsWithChildren, use, useEffect } from "react";
+import { PropsWithChildren, useState, useEffect } from "react";
+import { ActivityIndicator } from "react-native";
 import { StreamChat } from 'stream-chat';
 import { Chat, OverlayProvider } from 'stream-chat-expo';
 
@@ -13,24 +14,36 @@ export default function ChatProvider({children}: PropsWithChildren) {
     const connect = async () => {
         // Only connect if a user is not already connected
         if (!client.user) {
-        await client.connectUser(
-            {
-            id: 'test',
-            name: 'John Doe',
-            image: 'https://i.imgur.com/fR9Jz14.png',
-            },
-            client.devToken('test')
-        );
-        // commented out channel to avoid duplicate creation
-        //const channel = client.channel('messaging', 'test', {
-        //    name: 'Test',
-        //});
-        //await channel.watch();
+            await client.connectUser(
+                {
+                id: 'test',
+                name: 'John Doe',
+                image: 'https://i.imgur.com/fR9Jz14.png',
+                },
+                client.devToken('test')
+            );
+            setIsReady(true);
+            
+            // commented out channel to avoid duplicate creation
+            //const channel = client.channel('messaging', 'test', {
+            //    name: 'Test',
+            //});
+            //await channel.watch();
         }
     };
 
     connect();
+
+    return() => {
+        client.disconnectUser();
+        setIsReady(false);
+    }
+
     }, []);
+
+    if (!isReady) {
+        return <ActivityIndicator/ >;
+    }
 
     return (
         <OverlayProvider>
