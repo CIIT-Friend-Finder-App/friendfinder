@@ -11,33 +11,43 @@ export default function ChatProvider({children}: PropsWithChildren) {
 
 
     useEffect(() => {
-    const connect = async () => {
-        // Only connect if a user is not already connected
-        if (!client.user) {
-            await client.connectUser(
-                {
-                id: 'test',
-                name: 'John Doe',
-                image: 'https://i.imgur.com/fR9Jz14.png',
-                },
-                client.devToken('test')
-            );
-            setIsReady(true);
-            
-            // commented out channel to avoid duplicate creation
-            //const channel = client.channel('messaging', 'test', {
-            //    name: 'Test',
-            //});
-            //await channel.watch();
-        }
-    };
+        let isMounted = true;
+        const connect = async () => {
+            // Only connect if a user is not already connected
+            if (!client.user) {
+                try {
+                    await client.connectUser(
+                        {
+                        id: 'test',
+                        name: 'John Doe',
+                        image: 'https://i.imgur.com/fR9Jz14.png',
+                        },
+                        client.devToken('test')
+                    );
+                    if (isMounted) {
+                        setIsReady(true);
+                    }
+                    
+                    // commented out channel to avoid duplicate creation
+                    //const channel = client.channel('messaging', 'test', {
+                    //    name: 'Test',
+                    //});
+                    //await channel.watch();
+                } catch (e) {
+                    console.error("Error connecting user:", e);
+                }
+            }
+        };
 
-    connect();
+        connect();
 
-    return() => {
-        client.disconnectUser();
-        setIsReady(false);
-    }
+        return() => {
+            isMounted = false;
+            if (client.user) {
+                client.disconnectUser();
+                setIsReady(false);
+            }
+        };
 
     }, []);
 
