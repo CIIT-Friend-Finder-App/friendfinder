@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, View, AppState } from 'react-native'
+import { Alert, StyleSheet, View, AppState, Text, TextInput, Pressable } from 'react-native'
 import { supabase } from '../../lib/supabase'
 import { Button, Input } from '@rneui/themed'
 
@@ -7,6 +7,7 @@ import { Button, Input } from '@rneui/themed'
 // the app is in the foreground. When this is added, you will continue to receive
 // `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
 // if the user's session is terminated. This should only be registered once.
+
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {
     supabase.auth.startAutoRefresh()
@@ -46,50 +47,101 @@ export default function Auth() {
     setLoading(false)
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
-          label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={'none'}
-        />
+    return (
+      <View style = {styles.container}>
+
+        <View style = {styles.header}>
+          <Text style = {styles.logInHeading}>Login</Text>
+          <Text style = {styles.logInSubHeading}>Welcome back!</Text>
+        </View>
+
+        {/* ====== INPUT FIELDS ====== */}
+        <View style = {styles.inputFields}>
+          <TextInput 
+            placeholder = "Email"
+            style = {styles.input}
+            value = {email}
+            onChangeText={(text) => setEmail(text)}
+          />
+          <TextInput 
+            placeholder = "Password"
+            style = {styles.input}
+            value = {password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry
+          />
+          <Pressable style = {styles.logInBtn} onPress={() => signInWithEmail()} ><Text style = {styles.txtLogInBtn}>Log In</Text></Pressable>
+          <Text style = {styles.orText}>OR</Text>
+          <Pressable style = {styles.logInBtn} onPress={() => signUpWithEmail()} ><Text style = {styles.txtLogInBtn}>Sign Up</Text></Pressable>
+        </View>
       </View>
-      <View style={styles.verticallySpaced}>
-        <Input
-          label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-          autoCapitalize={'none'}
-        />
-      </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
-      </View>
-    </View>
-  )
+
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: 'white'
+  },
+  header: {
+    flex: 2.3,
+    padding: 10,
+    justifyContent: 'center',
+    marginBottom: -20,
+  },
+  logInHeading: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontFamily: 'HelveticaNeueHeavy',
+    marginBottom: -5
+  },
+  logInSubHeading: {
+    fontSize: 15,
+    fontFamily: 'HelveticaNeueRoman'
+  },
+  inputFields: {
+    flex: 2.8,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: '#A8A8A9',
     padding: 12,
+    paddingLeft: 18,
+    borderRadius: 30,
+    width: '80%',
+    backgroundColor: '#F3F3F3',
+    marginBottom: 10,
+    fontFamily: 'HelveticaNeueRoman',
+    fontSize: 13
   },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: 'stretch',
-  },
-  mt20: {
+  logInBtn: {
+    width: '80%',
+    backgroundColor: '#F82E4B',
     marginTop: 20,
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    
   },
-})
+  txtLogInBtn: {
+    color: 'white',
+    fontFamily: 'HelveticaNeueRoman',
+    fontSize: 13
+  },
+
+  orText: {
+    marginTop: 20,
+    color: 'grey',
+    fontFamily: 'HelveticaNeueRoman',
+    fontSize: 10,
+  },
+});
