@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Alert, StyleSheet, View, AppState, Text, TextInput, Pressable } from 'react-native'
 import { supabase } from '../../lib/supabase'
 import { Button, Input } from '@rneui/themed'
+import { Redirect } from 'expo-router'
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -35,16 +36,36 @@ export default function Auth() {
   async function signUpWithEmail() {
     setLoading(true)
     const {
-      data: { session },
+      data: { session, user },
       error,
     } = await supabase.auth.signUp({
       email: email,
       password: password,
     })
 
-    if (error) Alert.alert(error.message)
-    if (!session) Alert.alert('Please check your inbox for email verification!')
-    setLoading(false)
+    if (error) {
+        Alert.alert(error.message)
+        setLoading(false)
+        return
+    } 
+    if(user) {
+        try {
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .insert({
+                    id: user.id,
+                })
+            if (profileError) {
+               Alert.alert('Profile Creation Error', profileError.message)
+            } else {
+                Alert.alert('Sign Up Successful', 'Your account has been created!')
+            }
+        } catch (insertError) {
+            console.error('Profile insertion error:', insertError)
+            Alert.alert('Error', 'Could not create user profile')
+        } 
+    }
+    setLoading(false) 
   }
 
     return (
