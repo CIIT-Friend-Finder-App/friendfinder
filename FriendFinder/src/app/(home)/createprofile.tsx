@@ -81,17 +81,22 @@ export default function CreateProfile() {
                 return
             }
 
-            // Prepare the update object
+            // Define default values for pickers
+            const defaultCourse = 'bmma-a'; // First course in the list
+            const defaultYear = 'firstyr'; // First year in the list
+            const defaultLF = 'studybuddy'; // First "Looking For" option
+
+            // Prepare the update object with default values
             const updates = {
                 id: session.user.id,
                 nickname,
                 birthday: birthday ? birthday.toISOString().split('T')[0] : null, // Use date only
-                course,
-                year,
+                course: course || defaultCourse, // Use selected course or default
+                year: year || defaultYear, // Use selected year or default
                 bio,
                 interests: interests.filter(item => item.trim() !== ''), // Remove empty strings
                 hobbies: hobbies.filter(item => item.trim() !== ''), // Remove empty strings
-                lf,
+                lf: lf || defaultLF, // Use selected "Looking For" or default
                 updated_at: new Date().toISOString()
             }
 
@@ -237,6 +242,7 @@ export default function CreateProfile() {
                     </View>
                 </View>
                 <View style = {styles.column}>
+                    <Text style = {styles.coltext}>You can edit your profile again later on!</Text>
                     <Pressable 
                     style={styles.button} 
                     onPress={updateProfile} 
@@ -338,10 +344,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
+    coltext: {
+        fontFamily: 'HelveticaNeueRoman',
+        fontSize: 12,  
+        color: 'grey',
+        textAlign: 'center',
+        marginTop: 10, 
+    },
+
     button: {
         width: '90%',
         backgroundColor: '#F82E4B',
-        marginTop: 20,
+        marginTop: 10,
         borderRadius: 30,
         padding: 10,
         alignItems: 'center',
