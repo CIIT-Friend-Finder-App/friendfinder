@@ -1,9 +1,45 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../providers/AuthProvider";
+import { supabase } from "../../../lib/supabase";
+
+let loaded = false
 
 export default function TabsNavigator() {
+      const { user } = useAuth();
+      const [profile, setProfile] = useState(null);
+      const [loading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        async function fetchProfile() {
+          if (user) {
+            setLoading(true);
+            const { data, error } = await supabase
+              .from("profiles")
+              .select("nickname") // Assuming this is your flag
+              .eq("id", user.id)
+              .single();
+    
+            if (error) {
+              setProfile(null);
+            } else {
+              setProfile(data);
+            }
+            setLoading(false);
+          }
+        }
+    
+        fetchProfile();
+      }, [user]);
+
+      if (profile?.nickname && !loaded) {
+        loaded = true;
+        return <Redirect href="/(home)/" />; 
+      }
+      
     return (
         <Tabs
         screenOptions={{

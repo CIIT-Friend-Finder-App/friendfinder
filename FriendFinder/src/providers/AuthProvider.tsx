@@ -22,6 +22,18 @@ export default function AuthProvider({children}: PropsWithChildren) {
       setSession(session)
     })
   }, [])
+
+  useEffect(() =>{
+    if (!session?.user) {
+        return;
+    }
+
+    const fetchProfile = async () => {
+        
+    }
+
+    fetchProfile();
+  }, [session?.user])
   
     return (
         <AuthContext.Provider value={{ session, user: session?.user }}>{children}</AuthContext.Provider>

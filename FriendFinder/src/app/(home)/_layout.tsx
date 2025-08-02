@@ -1,16 +1,12 @@
 import { Redirect, Slot } from 'expo-router';
 import { StreamChat } from 'stream-chat';
 import ChatProvider from '../../providers/ChatProvider';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../providers/AuthProvider';
 import { supabase } from '../../lib/supabase';
-import { useNavigation } from '@react-navigation/native';
-import finish from '../(home)/profilepreview';
 
 
 const client = StreamChat.getInstance('ehp59nmz9q48');
-
-
 
 export default function HomeLayout() {
   const { user } = useAuth();
@@ -44,6 +40,7 @@ export default function HomeLayout() {
   }
 
   // Fallback for when there's no user.
+  return <Slot />;
  
     return (
         <ChatProvider>
