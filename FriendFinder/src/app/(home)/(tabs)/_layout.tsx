@@ -36,7 +36,7 @@ export default function TabsNavigator() {
     
         fetchProfile();
       }, [user]);
-      
+
     return (
         <Tabs
         screenOptions={{
@@ -88,7 +88,7 @@ export default function TabsNavigator() {
             <Tabs.Screen 
                 name="profile" 
                 options={{
-                    title: 'Profile', 
+                    title: 'Account', 
                     tabBarIcon: ({size, color, focused}) => (
                     <FontAwesome5 name="user-alt" size={24} color={focused ? 'white' : '#FCA5B4'} />
                     ),

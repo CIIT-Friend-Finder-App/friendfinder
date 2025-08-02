@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator, Text, StyleSheet } from 'react-native';
 import { Channel as ChannelType } from 'stream-chat';
 import { Channel, MessageInput, MessageList, useChatContext } from 'stream-chat-expo';
 
@@ -29,4 +29,5 @@ export default function ChannelScreen() {
             <MessageInput />
         </Channel>
     );
+    
 }

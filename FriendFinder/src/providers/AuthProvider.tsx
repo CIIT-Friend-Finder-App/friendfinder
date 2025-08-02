@@ -52,6 +52,17 @@ export default function AuthProvider({children}: PropsWithChildren) {
       setProfile(data);
     };
     fetchProfile();
+
+    const fetchEmail = async () => {
+      let { data, error } = await supabase
+      .from('users')
+      .select('email')
+      .eq('id', session.user.id)
+      .single();
+      setProfile(data);
+    };
+
+    fetchEmail();
   }, [session?.user]);
   
     return (
