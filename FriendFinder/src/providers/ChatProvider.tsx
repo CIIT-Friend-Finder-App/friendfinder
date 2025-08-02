@@ -29,7 +29,7 @@ export default function ChatProvider({children}: PropsWithChildren) {
             await client.connectUser(
                 {
                     id: profile.id,
-                    name: profile.nickname, 
+                    name: profile.nickname, // Or a username from your profiles table
                     image: avatarUrl, 
                 },
                 // In production, you should generate a user token on your backend

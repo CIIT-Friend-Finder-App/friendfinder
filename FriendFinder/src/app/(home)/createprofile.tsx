@@ -28,8 +28,6 @@ export default function CreateProfile() {
             const currentDate = selectedDate || birthday;
             toggleDatepicker();
             setBirthday(currentDate);
-
-
         } else {
             toggleDatepicker();
         }
@@ -71,7 +69,7 @@ export default function CreateProfile() {
         }
     }
 
-    async function updateProfile(){
+    async function updateProfile() {
         try {
             setLoading(true)
             if (!session?.user) throw new Error('No user on the session!')
@@ -87,7 +85,10 @@ export default function CreateProfile() {
             const defaultYear = 'firstyr'; // First year in the list
             const defaultLF = 'studybuddy'; // First "Looking For" option
 
-            // Prepare the update object with default values
+            // 🆕 Generate a unique avatar URL using the user's ID
+            const avatarUrl = `https://api.dicebear.com/8.x/notionists-neutral/svg?seed=${session.user.id}&scale=100`;
+
+            // Prepare the update object with default values and the avatar URL
             const updates = {
                 id: session.user.id,
                 nickname,
@@ -98,7 +99,8 @@ export default function CreateProfile() {
                 interests: interests.filter(item => item.trim() !== ''), // Remove empty strings
                 hobbies: hobbies.filter(item => item.trim() !== ''), // Remove empty strings
                 lf: lf || defaultLF, // Use selected "Looking For" or default
-                updated_at: new Date().toISOString()
+                updated_at: new Date().toISOString(),
+                avatar_url: avatarUrl // 🆕 Add the avatar URL to the updates object
             }
 
             console.log('Updating profile with:', updates)

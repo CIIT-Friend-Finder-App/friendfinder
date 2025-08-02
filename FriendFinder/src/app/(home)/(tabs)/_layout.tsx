@@ -40,6 +40,8 @@ export default function TabsNavigator() {
       if (profile?.nickname && !loaded) {
         loaded = true;
         return <Redirect href="/(home)/" />; 
+      } else if (!profile?.nickname) {
+        return <Redirect href="/(home)/createprofile" />; 
       }
       
     return (
