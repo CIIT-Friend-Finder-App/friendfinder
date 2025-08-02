@@ -41,7 +41,8 @@ export default function AuthLayout() {
   }
 
   // If the user exists AND HAS completed their profile, redirect to the home page.
-  if (user && profile?.nickname) {
+if (user && profile?.nickname) {
+    console.log('here')
     return <Redirect href="/(home)/" />;
   }
 

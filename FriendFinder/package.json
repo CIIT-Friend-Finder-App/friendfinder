@@ -16,6 +16,7 @@
     "@react-navigation/native": "^7.1.16",
     "@rneui/themed": "^4.0.0-rc.8",
     "@supabase/supabase-js": "^2.53.0",
+    "base64-arraybuffer": "^1.0.2",
     "expo": "~53.0.20",
     "expo-clipboard": "~7.1.5",
     "expo-constants": "~17.1.7",
@@ -30,10 +31,11 @@
     "react-easy-swipe": "^0.0.23",
     "react-native": "0.79.5",
     "react-native-gesture-handler": "~2.24.0",
+    "react-native-letter-avatar": "^1.0.1",
     "react-native-paper": "^5.14.5",
     "react-native-reanimated": "~3.17.4",
     "react-native-screens": "~4.11.1",
-    "react-native-svg": "15.11.2",
+    "react-native-svg": "^15.11.2",
     "stream-chat-expo": "^8.3.1"
   },
   "devDependencies": {

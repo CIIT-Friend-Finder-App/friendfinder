@@ -1,31 +1,40 @@
 import { Session, User } from "@supabase/supabase-js";
-import { createContext, PropsWithChildren, use, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 
-type AuthContext = {
+type AuthContextType = {
     session: Session | null;
     user: User | null;
     profile: any | null;
+    loading: boolean;
 }
 
-const AuthContext = createContext({
+const AuthContext = createContext<AuthContextType>({
     session: null,
     user: null,
     profile: null,
+    loading: true,
 });
 
 export default function AuthProvider({children}: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null)
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setProfile(null);
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
-    })
+      setLoading(false);
+    };
+
+    fetchSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
   }, [])
   
   useEffect(() => {
@@ -42,23 +51,11 @@ export default function AuthProvider({children}: PropsWithChildren) {
       .single();
       setProfile(data);
     };
-    fetchProfile()
-  }, [session?.user]);
-
-  useEffect(() =>{
-    if (!session?.user) {
-        return;
-    }
-
-    const fetchProfile = async () => {
-        
-    }
-
     fetchProfile();
-  }, [session?.user])
+  }, [session?.user]);
   
     return (
-        <AuthContext.Provider value={{ session, user: session?.user, profile }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ session, user: session?.user, profile, loading }}>{children}</AuthContext.Provider>
     );
 }
 

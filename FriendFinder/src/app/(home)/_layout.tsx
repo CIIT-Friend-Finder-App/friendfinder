@@ -40,15 +40,7 @@ export default function HomeLayout() {
   if (loading || !user) {
     return <Slot />;
   } 
-
-    if (profile?.nickname && !loaded) {
-        loaded = true;
-        return <Redirect href="/(home)/(tabs)/index" />; 
-
-    } else if (!profile?.nickname) {
-        return <Redirect href="/(home)/createprofile" />; 
-    }
-
+    
     return (
         <ChatProvider>
             <Stack>

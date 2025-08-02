@@ -5,7 +5,7 @@ import { useAuth } from "../providers/AuthProvider";
 
 
 const UserListItem =  ({ user }) => {
-    const { client} = useChatContext();
+    const { client } = useChatContext();
     const { user: me } = useAuth();
 
 

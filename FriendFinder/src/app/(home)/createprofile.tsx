@@ -5,6 +5,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useAuth } from '../../providers/AuthProvider';
 import { supabase } from '../../lib/supabase';
 import { router } from 'expo-router';
+import { decode } from 'base64-arraybuffer';
 
 export default function CreateProfile() {
     const [loading, setLoading] = useState(true)
@@ -69,6 +70,48 @@ export default function CreateProfile() {
         }
     }
 
+    // Function to generate the SVG and upload it to Supabase Storage
+    async function uploadAvatarFromNickname(nickname, userId) {
+        if (!nickname || !userId) {
+            throw new Error('Nickname and User ID are required.');
+        }
+
+        const firstLetter = nickname.charAt(0).toUpperCase();
+        
+        // Generate a simple SVG for the avatar. You can customize this SVG.
+        const svgContent = `
+            <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="#F82E4B"/>
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="HelveticaNeueHeavy" font-size="64" fill="white">${firstLetter}</text>
+            </svg>
+        `;
+
+        // Convert the SVG content to a base64 string.
+        const base64 = btoa(svgContent);
+
+        // Generate a unique file name using the user's ID to prevent conflicts.
+        const fileName = `avatar-${userId}.svg`;
+
+        // Upload the base64 string to Supabase Storage.
+        const { data, error } = await supabase.storage
+            .from('ff-avatars') // Replace 'avatars' with your storage bucket name
+            .upload(fileName, decode(base64), {
+                contentType: 'image/svg+xml',
+                upsert: true // Overwrite the file if it already exists
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        // Get the public URL of the uploaded file.
+        const { data: publicUrlData } = supabase.storage
+            .from('avatars')
+            .getPublicUrl(fileName);
+
+        return publicUrlData.publicUrl;
+    }
+
     async function updateProfile() {
         try {
             setLoading(true)
@@ -84,9 +127,7 @@ export default function CreateProfile() {
             const defaultCourse = 'bmma-a'; // First course in the list
             const defaultYear = 'firstyr'; // First year in the list
             const defaultLF = 'studybuddy'; // First "Looking For" option
-
-            // 🆕 Generate a unique avatar URL using the user's ID
-            const avatarUrl = `https://api.dicebear.com/8.x/notionists-neutral/svg?seed=${session.user.id}&scale=100`;
+            const avatarUrl = await uploadAvatarFromNickname(nickname, session.user.id);
 
             // Prepare the update object with default values and the avatar URL
             const updates = {
@@ -100,7 +141,7 @@ export default function CreateProfile() {
                 hobbies: hobbies.filter(item => item.trim() !== ''), // Remove empty strings
                 lf: lf || defaultLF, // Use selected "Looking For" or default
                 updated_at: new Date().toISOString(),
-                avatar_url: avatarUrl // 🆕 Add the avatar URL to the updates object
+                avatar_url: avatarUrl // Add the avatar URL to the updates object
             }
 
             console.log('Updating profile with:', updates)

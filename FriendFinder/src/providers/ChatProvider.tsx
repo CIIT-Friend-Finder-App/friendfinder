@@ -10,14 +10,6 @@ const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 export default function ChatProvider({children}: PropsWithChildren) {
     const [isReady, setIsReady] = useState(false);
     const { profile } = useAuth();
-
-    const getAvatarUrl = (nickname) => {
-    if (!nickname) {
-        return null;
-    }
-    const firstLetter = nickname.charAt(0).toUpperCase();
-    return `https://ui-avatars.com/api/?name=${firstLetter}&background=random`;
-    };
     
  
     useEffect(() => { 
@@ -25,12 +17,11 @@ export default function ChatProvider({children}: PropsWithChildren) {
             return;
         }
         const connect = async () => {
-            const avatarUrl = getAvatarUrl(profile.nickname); // Generate the avatar URL
             await client.connectUser(
                 {
                     id: profile.id,
                     name: profile.nickname, // Or a username from your profiles table
-                    image: avatarUrl, 
+                    image: profile.avatarUrl, 
                 },
                 // In production, you should generate a user token on your backend
                 // and fetch it here instead of using a dev token.
