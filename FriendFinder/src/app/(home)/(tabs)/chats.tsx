@@ -1,10 +1,15 @@
-import { use, useState } from 'react';
-import { Text } from 'react-native';
-import { ChannelList } from 'stream-chat-expo';
-import { Channel as ChannelType, StreamChat} from 'stream-chat';
-import { router } from 'expo-router';
+import { router } from "expo-router";
+import { ChannelList } from "stream-chat-expo";
+import { useAuth } from "../../../providers/AuthProvider";
 
 export default function MainTab() {
-
-    return <ChannelList onSelect={(channel => router.push(`/channel/${channel.cid}`))}/>
+    const { user } = useAuth();
+    return (
+        <>
+            <ChannelList 
+                filters={{ members: { $in: [user.id]} }} 
+                onSelect={(channel) => router.push(`../channel/${channel.cid}`)}
+            />
+        </>
+    );
 }

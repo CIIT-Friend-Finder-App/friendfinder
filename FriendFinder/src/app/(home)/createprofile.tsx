@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import DateTimePicker from "@react-native-community/datetimepicker"; 
 import { useAuth } from '../../providers/AuthProvider';
 import { supabase } from '../../lib/supabase';
+import { router } from 'expo-router';
 
 export default function CreateProfile() {
     const [loading, setLoading] = useState(true)
@@ -114,6 +115,7 @@ export default function CreateProfile() {
 
             console.log('Profile update result:', data)
             Alert.alert('Success', 'Profile updated successfully!')
+            router.replace('/(home)');
         } catch (error) {
             console.error('Full error:', error)
             Alert.alert(

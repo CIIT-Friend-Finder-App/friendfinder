@@ -1,10 +1,12 @@
-import { Redirect, Tabs } from "expo-router";
+import { Link, Redirect, Tabs } from "expo-router";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../providers/AuthProvider";
 import { supabase } from "../../../lib/supabase";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { Pressable } from "react-native";
 
 let loaded = false
 
@@ -64,6 +66,18 @@ export default function TabsNavigator() {
                     title: 'Chats', 
                     tabBarIcon: ({size, color, focused}) => (
                     <Ionicons name="chatbubbles-sharp" size={24} color={focused ? 'white' : '#FCA5B4'} />
+                    ),
+                    headerRight: () => (
+                        <Link href={'/(home)/chatreqs'} asChild>
+                            <Pressable>
+                                <AntDesign 
+                                name="pluscircle" 
+                                size={24} 
+                                color="#F83758" 
+                                style={{marginRight: 15}} 
+                                />
+                            </Pressable>
+                        </Link>
                     ),
                 }}
             />
