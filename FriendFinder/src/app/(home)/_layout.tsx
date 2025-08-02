@@ -1,4 +1,4 @@
-import { Redirect, Slot } from 'expo-router';
+import { Redirect, Slot, Stack } from 'expo-router';
 import { StreamChat } from 'stream-chat';
 import ChatProvider from '../../providers/ChatProvider';
 import React, { useEffect, useState } from 'react';
@@ -39,14 +39,11 @@ export default function HomeLayout() {
     return <Slot />;
   }
 
-  // Fallback for when there's no user.
-  return <Slot />;
- 
     return (
         <ChatProvider>
-            <Slot>
-            </Slot>
+            <Stack>
+                <Stack.Screen name ="(tabs)" options={{headerShown: false}} />
+            </Stack>
         </ChatProvider>
-
     );
 }
