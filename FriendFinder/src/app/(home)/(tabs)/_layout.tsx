@@ -47,7 +47,7 @@ export default function TabsNavigator() {
             tabBarShowLabel: true,
         }}>
             <Tabs.Screen 
-                name="index" 
+                name="meet" 
                 options={{
                     title: 'Meet', 
                     tabBarIcon: ({size, color, focused}) => (

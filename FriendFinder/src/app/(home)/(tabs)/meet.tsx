@@ -34,7 +34,6 @@ export default function ProfileScreen() {
     }
   }
 
-
   return (
     <View style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
