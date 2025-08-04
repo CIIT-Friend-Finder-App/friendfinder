@@ -81,7 +81,7 @@ export default function ProfileScreen() {
                         <View style = {styles.deleteConfirmation}>
                             <Text style = {{fontFamily: 'HelveticaNeueHeavy', textAlign: 'center', fontSize: 15}}>Are you sure you want to delete account?</Text>
                             <Text style = {{fontFamily: 'HelveticaNeueRoman', textAlign: 'center', fontSize: 12}}>This will permanently delete your account and cannot be undone.</Text>
-                            <View style = {{gap: 7, marginTop: 20}}>
+                            <View style = {{gap: 7, marginTop: 10}}>
                                 <Pressable onPress={toggleDelete} style = {styles.deleteButton}><Text style = {{fontFamily: 'HelveticaNeueRoman', color: 'white', textAlign: 'center', fontSize: 12, fontWeight: 700}}>Yes, delete my account.</Text></Pressable>
                                 <Pressable onPress={toggleDelete} style = {styles.cancelDelete}><Text style = {{fontFamily: 'HelveticaNeueRoman', color: 'black', textAlign: 'center', fontSize: 12, fontWeight: 700}}>Keep my account.</Text></Pressable>
                             </View>
@@ -166,13 +166,15 @@ const styles = StyleSheet.create({
     },
     settingsLabel: {
         fontFamily: 'HelveticaNeueRoman',
-        fontSize: 15
+        fontSize: 15,
+        marginTop: 6
 
     },
     deleteLabel: {
         fontFamily: 'HelveticaNeueRoman',
         fontSize: 15,
-        color: 'red'
+        color: 'red',
+        marginTop: 6
     },
     overlay: {
         flex: 1,
@@ -182,10 +184,11 @@ const styles = StyleSheet.create({
     deleteConfirmation: {
         backgroundColor: 'white',
         width: 250,
-        height: 220,
+        height: 200,
         borderRadius: 30,
         zIndex: 10,
-        padding: 30
+        padding: 30,
+        gap: 10
 
     },
     deleteButton: {

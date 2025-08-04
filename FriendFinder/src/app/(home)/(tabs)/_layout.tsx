@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../providers/AuthProvider";
 import { supabase } from "../../../lib/supabase";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 
 let loaded = false
 
@@ -45,6 +45,14 @@ export default function TabsNavigator() {
             tabBarActiveTintColor: 'white',
             tabBarInactiveTintColor: 'white',
             tabBarShowLabel: true,
+            tabBarStyle: {
+                height: 115,
+
+            },
+            tabBarIconStyle: {
+                marginTop: 10,
+            }
+
         }}>
             <Tabs.Screen 
                 name="meet" 
@@ -56,11 +64,14 @@ export default function TabsNavigator() {
                 }}
             />
             <Tabs.Screen 
+                
                 name="chats" 
                 options={{
                     title: 'Chats', 
                     tabBarIcon: ({size, color, focused}) => (
+            
                     <Ionicons name="chatbubbles-sharp" size={24} color={focused ? 'white' : '#FCA5B4'} />
+          
                     ),
                     headerRight: () => (
                         <Link href={'/(home)/chatreqs'} asChild>
