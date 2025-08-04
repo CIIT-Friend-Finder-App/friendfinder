@@ -68,13 +68,13 @@ const styles = StyleSheet.create({
 const slides = [
   {
     key: 's1',
-    text: 'Best Recharge offers',
+    text: 'Welcome to CIIT Friend Finder',
     title: 'Mobile Recharge',
     image: {
       uri:
-        'https://raw.githubusercontent.com/AboutReact/sampleresource/master/intro_mobile_recharge.png',
+        '/FriendFinder/assets/cff-logo-white.png',
     },
-    backgroundColor: '#20d2bb',
+    backgroundColor: '#F83758',
   },
   {
     key: 's2',
