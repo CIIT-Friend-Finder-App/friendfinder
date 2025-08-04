@@ -30,6 +30,7 @@
     "react": "19.0.0",
     "react-easy-swipe": "^0.0.23",
     "react-native": "0.79.5",
+    "react-native-app-intro-slider": "^4.0.4",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-letter-avatar": "^1.0.1",
     "react-native-paper": "^5.14.5",

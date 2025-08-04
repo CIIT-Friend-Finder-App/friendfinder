@@ -37,7 +37,8 @@ export default function AuthLayout() {
   // Check if the user exists and has NOT completed their profile.
   if (user && !profile?.nickname) {
     // Redirect to the create profile page
-    return <Redirect href="/(home)/createprofile" />; 
+    console.log('here5')
+    return <Redirect href="/(home)/tutorial" />; 
   }
 
   // If the user exists AND HAS completed their profile, redirect to the home page.

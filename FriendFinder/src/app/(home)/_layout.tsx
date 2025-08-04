@@ -40,12 +40,18 @@ export default function HomeLayout() {
   if (loading || !user) {
     return <Slot />;
   } 
-    
+
+  if (user && profile?.nickname && loaded) {
+    console.log('here6')
+    loaded = true;
+    return <Redirect href="/(home)/meet" />;
+  }
+   
+
     return (
         <ChatProvider>
             <Stack>
                 <Stack.Screen name ="(tabs)" options={{headerShown: false}} />
-
             </Stack>
         </ChatProvider>
     );
