@@ -11,7 +11,6 @@ const client = StreamChat.getInstance('ehp59nmz9q48');
 let loaded = false;
 
 export default function HomeLayout() {
-
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);

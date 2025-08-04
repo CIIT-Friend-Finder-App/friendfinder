@@ -3,7 +3,6 @@ import { ActivityIndicator } from "react-native";
 import { StreamChat } from 'stream-chat';
 import { Chat, OverlayProvider } from 'stream-chat-expo';
 import { useAuth } from "./AuthProvider";
-import { tokenProvider } from "../utils/tokenProvider";
 
 const client = StreamChat.getInstance(process.env.EXPO_PUBLIC_STREAM_API_KEY);
 
@@ -18,9 +17,6 @@ export default function ChatProvider({children}: PropsWithChildren) {
             return;
         }
         const connect = async () => {
-            // const token = await tokenProvider();
-            // console.log("TOKEN: ", token);
-
             await client.connectUser(
                 {
                     id: profile.id,
@@ -29,8 +25,7 @@ export default function ChatProvider({children}: PropsWithChildren) {
                 },
                 // In production, you should generate a user token on your backend
                 // and fetch it here instead of using a dev token.
-                // client.devToken(profile.id)
-                tokenProvider
+                client.devToken(profile.id)
             );
             setIsReady(true);
         };
