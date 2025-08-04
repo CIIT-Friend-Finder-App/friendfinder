@@ -11,6 +11,7 @@ const client = StreamChat.getInstance('ehp59nmz9q48');
 let loaded = false;
 
 export default function HomeLayout() {
+
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,9 +51,18 @@ export default function HomeLayout() {
 
     return (
         <ChatProvider>
+<<<<<<< HEAD
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="profile" options={{ headerShown: false }} />
+
+  <Stack.Screen name="(tabs)" />
+</Stack>
+
+=======
             <Stack>
                 <Stack.Screen name ="(tabs)" options={{headerShown: false}} />
             </Stack>
+>>>>>>> 1c40cba8c7332a8cee9fe610cada2493cbc7806b
         </ChatProvider>
     );
 }

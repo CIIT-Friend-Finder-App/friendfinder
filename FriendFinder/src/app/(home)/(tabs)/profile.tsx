@@ -98,10 +98,7 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: 12,
-  },
+
   verticallySpaced: {
     paddingTop: 4,
     paddingBottom: 4,
