@@ -46,7 +46,7 @@ export default function TabsNavigator() {
             tabBarInactiveTintColor: 'white',
             tabBarShowLabel: true,
             tabBarStyle: {
-                height: 115,
+                height: 110,
 
             },
             tabBarIconStyle: {
@@ -100,6 +100,7 @@ export default function TabsNavigator() {
                 name="profile" 
                 options={{
                     title: 'Account', 
+             
                     tabBarIcon: ({size, color, focused}) => (
                     <FontAwesome5 name="user-alt" size={24} color={focused ? 'white' : '#FCA5B4'} />
                     ),
